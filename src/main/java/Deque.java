@@ -3,7 +3,14 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    class DequeIterator<Item> implements Iterator<Item>{
+    // helper linked list class
+    private class Node {
+        private Item item;
+        private Node next;
+        private Node prev;
+    }
+
+    class DequeIterator<Item> implements Iterator<Item> {
 
         @Override
         public boolean hasNext() {
@@ -22,33 +29,56 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    public Deque() {
-    }
+    private int size = 0;
+    private Node head = null;
+    private Node last = null;
 
     public boolean isEmpty() {
-        return true;
+        return size == 0;
     }
 
     public int size() {
-        return 0;
+        return size;
     }
 
     public void addFirst(Item item) {
         validateItem(item);
+        Node newNode = new Node();
+        newNode.item = item;
+        newNode.next = head;
+        head = newNode;
+        if(size == 0) {
+            last = head;
+        }
+        size++;
     }
 
     public void addLast(Item item) {
         validateItem(item);
+        Node newNode = new Node();
+        newNode.item = item;
+        newNode.prev = last;
+        last = newNode;
+        if(size == 0) {
+            head = last;
+        }
+        size++;
     }
 
     public Item removeFirst() {
         validateSize();
-        return null;
+        Item val = head.item;
+        head = head.next;
+        size--;
+        return val;
     }
 
     public Item removeLast() {
         validateSize();
-        return null;
+        Item val = last.item;
+        last = last.prev;
+        size--;
+        return val;
     }
 
     public Iterator<Item> iterator() {
@@ -60,7 +90,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private void validateSize() {
-        if (size() == 0) throw new NoSuchElementException();
+        if (isEmpty()) throw new NoSuchElementException();
     }
 
 }
