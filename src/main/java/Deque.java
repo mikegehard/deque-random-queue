@@ -10,17 +10,24 @@ public class Deque<Item> implements Iterable<Item> {
         private Node prev;
     }
 
-    class DequeIterator<Item> implements Iterator<Item> {
+    class DequeIterator implements Iterator<Item> {
+        private Node current;
+
+        DequeIterator(Node currentHead) {
+            current = currentHead;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return current != null;
         }
 
         @Override
         public Item next() {
-            throw new NoSuchElementException();
-//            return null;
+            if (!hasNext()) throw new NoSuchElementException();
+            Item value = current.item;
+            current = current.next;
+            return value;
         }
 
         @Override
@@ -47,7 +54,7 @@ public class Deque<Item> implements Iterable<Item> {
         newNode.item = item;
         newNode.next = head;
         head = newNode;
-        if(size == 0) {
+        if (size == 0) {
             last = head;
         }
         size++;
@@ -59,7 +66,7 @@ public class Deque<Item> implements Iterable<Item> {
         newNode.item = item;
         newNode.prev = last;
         last = newNode;
-        if(size == 0) {
+        if (size == 0) {
             head = last;
         }
         size++;
@@ -82,7 +89,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public Iterator<Item> iterator() {
-        return new DequeIterator<Item>();
+        return new DequeIterator(head);
     }
 
     private void validateItem(Item item) {

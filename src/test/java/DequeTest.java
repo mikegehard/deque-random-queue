@@ -1,10 +1,9 @@
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class DequeTest {
     @Test(expectedExceptions = NullPointerException.class)
@@ -46,6 +45,9 @@ public class DequeTest {
     public void testNextRaisesWhenNoMoreElements() {
         Deque<String> deque = new Deque<String>();
 
+        Iterator<String> iterator = deque.iterator();
+
+        assertFalse(iterator.hasNext());
         deque.iterator().next();
     }
 
@@ -107,5 +109,22 @@ public class DequeTest {
         deque.addFirst("One");
 
         assertEquals("One", deque.removeLast());
+    }
+
+    @Test
+    public void testIteration() {
+        Deque<String> deque = new Deque<String>();
+
+        deque.addFirst("One");
+        deque.addFirst("Two");
+        // ["Two", "One"]
+
+        Iterator<String> iterator = deque.iterator();
+
+        assertEquals("Two", iterator.next());
+        assertTrue(iterator.hasNext());
+
+        assertEquals("One", iterator.next());
+        assertFalse(iterator.hasNext());
     }
 }
