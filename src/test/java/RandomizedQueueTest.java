@@ -8,6 +8,8 @@ import static org.testng.Assert.*;
 
 public class RandomizedQueueTest {
 
+    static final int NUMBER_OF_ITERATIONS = 100000;
+
     @Test
     public void newQueueIsEmpty() {
         RandomizedQueue<String> queue = new RandomizedQueue<String>();
@@ -81,32 +83,32 @@ public class RandomizedQueueTest {
     public void samplingReturnsRandomValue() {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             queue.enqueue(i);
         }
 
-        Integer[] results = new Integer[200];
+        Integer[] results = new Integer[NUMBER_OF_ITERATIONS];
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             results[i] = queue.sample();
         }
 
-        assertEquals(200,results.length);
-        assertEquals(200,queue.size());
+        assertEquals(NUMBER_OF_ITERATIONS,results.length);
+        assertEquals(NUMBER_OF_ITERATIONS,queue.size());
     }
 
     @Test
     public void dequeueReturnsItemAndChangesSize() {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             queue.enqueue(i);
         }
 
-        Integer[] results = new Integer[200];
-        Integer[] expected = new Integer[200];
+        Integer[] results = new Integer[NUMBER_OF_ITERATIONS];
+        Integer[] expected = new Integer[NUMBER_OF_ITERATIONS];
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             results[i] = queue.dequeue();
             expected[i] = new Integer(i);
         }
@@ -138,40 +140,40 @@ public class RandomizedQueueTest {
     public void iteration() {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             queue.enqueue(i);
         }
 
         Iterator<Integer> iter = queue.iterator();
 
-        Integer[] results = new Integer[200];
-        Integer[] expected = new Integer[200];
+        Integer[] results = new Integer[NUMBER_OF_ITERATIONS];
+        Integer[] expected = new Integer[NUMBER_OF_ITERATIONS];
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             assertTrue(iter.hasNext());
             results[i] = iter.next();
             expected[i] = new Integer(i);
         }
 
         assertFalse(iter.hasNext());
-        assertEquals(200, results.length);
+        assertEquals(NUMBER_OF_ITERATIONS, results.length);
     }
 
     @Test
     public void iterationIsIndependent() {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             queue.enqueue(i);
         }
 
         Iterator<Integer> iter1 = queue.iterator();
         Iterator<Integer> iter2 = queue.iterator();
 
-        Integer[] results1 = new Integer[200];
-        Integer[] results2 = new Integer[200];
+        Integer[] results1 = new Integer[NUMBER_OF_ITERATIONS];
+        Integer[] results2 = new Integer[NUMBER_OF_ITERATIONS];
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) {
             results1[i] = iter1.next();
             results2[i] = iter2.next();
         }
