@@ -23,11 +23,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public void enqueue(Item item) {
         validateItem(item);
-        if (storage.length == size) {
-            Item[] newStorage = (Item[]) new Object[storage.length * 2];
-            System.arraycopy(storage, 0, newStorage, 0, storage.length);
-            storage = newStorage;
-        }
+        if (isFull()) resize(storage.length * 2);
         storage[size] = item;
         size++;
     }
@@ -35,16 +31,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         checkItemExists();
 
-        int randomItemIndex;
-        Item item;
-
-        do {
-            randomItemIndex = generator.nextInt(storage.length);
-            item = storage[randomItemIndex];
-        } while (item == null);
-
-        storage[randomItemIndex] = null;
+        int randomItemIndex = generator.nextInt(size);
+        Item item = storage[randomItemIndex];
         size--;
+        storage[randomItemIndex] = storage[size];
+        storage[size] = null;
+
+        if (tooBig()) resize(storage.length / 2);
+
         return item;
     }
 
@@ -55,6 +49,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public Iterator<Item> iterator() {
         return new RandomQueueIterator(generator, Arrays.copyOfRange(storage, 0, size));
+    }
+
+    private boolean tooBig() {
+        return size > 0 && size == storage.length / 4;
+    }
+
+    private void resize(int newSize) {
+        Item[] newStorage = (Item[]) new Object[newSize];
+        System.arraycopy(storage, 0, newStorage, 0, size);
+        storage = newStorage;
+    }
+
+    private boolean isFull() {
+        return storage.length == size;
     }
 
     private void checkItemExists() {
