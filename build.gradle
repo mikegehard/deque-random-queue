@@ -6,6 +6,7 @@ repositories {
 
 dependencies {
     testCompile group: 'org.testng', name: 'testng', version: '6.8.8'
+    compile files('../libraries/stdlib.jar')
 }
 
 test {
