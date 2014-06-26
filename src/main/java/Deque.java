@@ -90,6 +90,7 @@ public class Deque<Item> implements Iterable<Item> {
         validateSize();
         Item val = last.item;
         last = last.prev;
+        last.next = null;
         size--;
         return val;
     }

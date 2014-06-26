@@ -133,7 +133,7 @@ public class DequeTest {
     }
 
     @Test
-    public void testIteration() {
+    public void testIterationWithOnlyAddFirst() {
         Deque<String> deque = new Deque<String>();
 
         deque.addFirst("One");
@@ -146,6 +146,27 @@ public class DequeTest {
         assertTrue(iterator.hasNext());
 
         assertEquals("One", iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testIterationWithMixOfOperations() {
+        Deque<String> deque = new Deque<String>();
+
+        deque.addFirst("One");
+        deque.addFirst("Two");
+        deque.addLast("Hello");
+        deque.addLast("World");
+
+        deque.removeFirst(); // Two
+        deque.removeLast(); // World
+
+        Iterator<String> iterator = deque.iterator();
+
+        assertEquals("One", iterator.next());
+        assertTrue(iterator.hasNext());
+
+        assertEquals("Hello", iterator.next());
         assertFalse(iterator.hasNext());
     }
 }
