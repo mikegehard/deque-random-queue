@@ -95,20 +95,41 @@ public class DequeTest {
 
     @Test
     public void testAddingToFrontAndRemovingFromFront() {
-        Deque<String> deque = new Deque<String>();
+        Deque<Integer> deque = new Deque<Integer>();
 
-        deque.addFirst("One");
+        for (int i = 0; i < 150; i++) {
+            deque.addFirst(i);
+        }
 
-        assertEquals("One", deque.removeFirst());
+        for (int i = 149; i >= 0; i--) {
+            assertEquals(new Integer(i), deque.removeFirst());
+        }
     }
 
     @Test
     public void testAddingToFrontAndRemovingFromLast() {
-        Deque<String> deque = new Deque<String>();
+        Deque<Integer> deque = new Deque<Integer>();
 
-        deque.addFirst("One");
+        for (int i = 0; i < 150; i++) {
+            deque.addFirst(i);
+        }
 
-        assertEquals("One", deque.removeLast());
+        for (int i = 0; i < 100; i++) {
+            assertEquals(new Integer(i), deque.removeLast());
+        }
+    }
+
+    @Test
+    public void testAddingToEndAndRemovingFromFront() {
+        Deque<Integer> deque = new Deque<Integer>();
+
+        for (int i = 0; i < 150; i++) {
+            deque.addLast(i);
+        }
+
+        for (int i = 0; i < 100; i++) {
+            assertEquals(new Integer(i), deque.removeFirst());
+        }
     }
 
     @Test

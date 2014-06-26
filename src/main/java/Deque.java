@@ -10,7 +10,7 @@ public class Deque<Item> implements Iterable<Item> {
         private Node prev;
     }
 
-    class DequeIterator implements Iterator<Item> {
+    private class DequeIterator implements Iterator<Item> {
         private Node current;
 
         DequeIterator(Node currentHead) {
@@ -53,10 +53,13 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.item = item;
         newNode.next = head;
-        head = newNode;
         if (size == 0) {
-            last = head;
+            last = newNode;
+
+        } else {
+            head.prev = newNode;
         }
+        head = newNode;
         size++;
     }
 
@@ -65,10 +68,13 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.item = item;
         newNode.prev = last;
-        last = newNode;
+
         if (size == 0) {
-            head = last;
+            head = newNode;
+        } else {
+            last.next = newNode;
         }
+        last = newNode;
         size++;
     }
 
