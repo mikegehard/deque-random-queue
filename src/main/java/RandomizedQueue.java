@@ -13,11 +13,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         this.generator = new Random();
     }
 
-//    public RandomizedQueue(Random generator) {
-//        this();
-//        this.generator = generator;
-//    }
-
     public boolean isEmpty() {
         return size() == 0;
     }
@@ -39,8 +34,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public Item dequeue() {
         checkItemExists();
-        int randomItemIndex = generator.nextInt(size);
-        Item item = storage[randomItemIndex];
+
+        int randomItemIndex;
+        Item item;
+
+        do {
+            randomItemIndex = generator.nextInt(storage.length);
+            item = storage[randomItemIndex];
+        } while (item == null);
+
         storage[randomItemIndex] = null;
         size--;
         return item;

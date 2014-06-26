@@ -1,12 +1,10 @@
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class RandomizedQueueTest {
 
@@ -81,31 +79,42 @@ public class RandomizedQueueTest {
 
     @Test
     public void samplingReturnsRandomValue() {
-//        Random r = new Random();
-//        r.setSeed(12345);
-//        RandomizedQueue<String> queue = new RandomizedQueue<String>(r);
-//
-//        queue.enqueue("Hello");
-//        queue.enqueue("World");
-//        queue.enqueue("One");
-//        queue.enqueue("Two");
-//
-//        assertEquals("World", queue.sample());
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+
+        for (int i = 0; i < 200; i++) {
+            queue.enqueue(i);
+        }
+
+        Integer[] results = new Integer[200];
+
+        for (int i = 0; i < 200; i++) {
+            results[i] = queue.sample();
+        }
+
+        assertEquals(200,results.length);
+        assertEquals(200,queue.size());
     }
 
     @Test
     public void dequeueReturnsItemAndChangesSize() {
-//        Random r = new Random();
-//        r.setSeed(12345);
-//        RandomizedQueue<String> queue = new RandomizedQueue<String>(r);
-//
-//        queue.enqueue("Hello");
-//        queue.enqueue("World");
-//        queue.enqueue("One");
-//        queue.enqueue("Two");
-//
-//        assertEquals("World", queue.dequeue());
-//        assertEquals(3, queue.size());
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+
+        for (int i = 0; i < 200; i++) {
+            queue.enqueue(i);
+        }
+
+        Integer[] results = new Integer[200];
+        Integer[] expected = new Integer[200];
+
+        for (int i = 0; i < 200; i++) {
+            results[i] = queue.dequeue();
+            expected[i] = new Integer(i);
+        }
+
+        assertEquals(0,queue.size());
+
+        Arrays.sort(results);
+        assertEquals(expected, results);
     }
 
     @Test
@@ -127,27 +136,46 @@ public class RandomizedQueueTest {
 
     @Test
     public void iteration() {
-//        Random r = new Random();
-//        r.setSeed(12345);
-//        RandomizedQueue<String> queue = new RandomizedQueue<String>(r);
-//
-//        queue.enqueue("One");
-//        queue.enqueue("Two");
-//        queue.enqueue("Three");
-//        queue.enqueue("Four");
-//
-//        Iterator<String> iter = queue.iterator();
-//
-//        assertEquals("Two", iter.next());
-//        assertTrue(iter.hasNext());
-//
-//        assertEquals("Three", iter.next());
-//        assertTrue(iter.hasNext());
-//
-//        assertEquals("Four", iter.next());
-//        assertTrue(iter.hasNext());
-//
-//        assertEquals("Four", iter.next());
-//        assertFalse(iter.hasNext());
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+
+        for (int i = 0; i < 200; i++) {
+            queue.enqueue(i);
+        }
+
+        Iterator<Integer> iter = queue.iterator();
+
+        Integer[] results = new Integer[200];
+        Integer[] expected = new Integer[200];
+
+        for (int i = 0; i < 200; i++) {
+            assertTrue(iter.hasNext());
+            results[i] = iter.next();
+            expected[i] = new Integer(i);
+        }
+
+        assertFalse(iter.hasNext());
+        assertEquals(200, results.length);
+    }
+
+    @Test
+    public void iterationIsIndependent() {
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+
+        for (int i = 0; i < 200; i++) {
+            queue.enqueue(i);
+        }
+
+        Iterator<Integer> iter1 = queue.iterator();
+        Iterator<Integer> iter2 = queue.iterator();
+
+        Integer[] results1 = new Integer[200];
+        Integer[] results2 = new Integer[200];
+
+        for (int i = 0; i < 200; i++) {
+            results1[i] = iter1.next();
+            results2[i] = iter2.next();
+        }
+
+        assertNotEquals(results1, results2);
     }
 }
